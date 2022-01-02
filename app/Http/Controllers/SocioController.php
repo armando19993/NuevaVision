@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSocioRequest;
 use App\Http\Requests\UpdateSocioRequest;
 use App\Models\Socio;
 use App\Models\Banco;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -62,6 +63,14 @@ class SocioController extends Controller
         $socio->save();
         
         $this->storePdf($socio, $nombre);
+
+        User::create([
+            'email' => $request->correo,
+            'name' => $request->nombres,
+            'password' => sha1($request->documento),
+            'type_user' => 5,
+            'status_user' => $request->estado
+        ]);
 
         return $socio;
     }
@@ -206,5 +215,15 @@ class SocioController extends Controller
     {
         $data = PDF::loadView('ficha_socio', ['socio' => $array])
         ->save(public_path('fichas_socios/') . $nombre);
+    }
+
+    public function mis_aportes()
+    {
+        return view('mis_aportes');
+    }
+
+    public function perfil()
+    {
+        return view('perfil');
     }
 }

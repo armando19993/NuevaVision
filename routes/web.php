@@ -31,3 +31,6 @@ Route::get('aportes-socios', [AportesSocioController::class, 'index'])->name('ap
 Route::get('procesos', [ProcesoSocioController::class, 'index'])->name('procesos');
 
 Route::get('socios/listado', [SocioController::class, 'show']);
+
+Route::get('mis_aportes', [SocioController::class, 'mis_aportes'])->name('mis_aportes');
+Route::get('perfil', [SocioController::class, 'perfil'])->name('perfil');

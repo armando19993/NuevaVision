@@ -194,6 +194,19 @@
           </li>
           @endif
 
+          @if (Auth::user()->type_user == 5)
+            <li class=" nav-item">
+              <a class="d-flex align-items-center" href="{{route('mis_aportes')}}">
+                  <i data-feather="list"></i><span class="menu-title text-truncate" >Mis Aportes</span>
+              </a>
+            </li>
+            <li class=" nav-item">
+              <a class="d-flex align-items-center" href="{{route('perfil')}}">
+                  <i data-feather="user"></i><span class="menu-title text-truncate" >Editar Mi Perfil</span>
+              </a>
+            </li>
+          @endif
+
         </ul>
       </div>
     </div>
