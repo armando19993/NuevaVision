@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateEncargadosTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('encargados', function (Blueprint $table) {
+            $table->id();
+            $table->integer('cedula');
+            $table->string('nombre');
+            $table->integer('telefono');
+            $table->integer('movil')->nullable();
+            $table->string('direccion');
+            $table->string('email');
+            $table->integer('status');
+            $table->integer('id_creador');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('encargados');
+    }
+}
