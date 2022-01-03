@@ -41,7 +41,7 @@
                     <option value="2">Abogado</option>
                     <option value="3">Tesorer@</option>
                     <option value="4">Secretari@</option>
-                    <option value="45">Soci@</option>
+                    <option value="5">Soci@</option>
                   </select>
                 </div>
 

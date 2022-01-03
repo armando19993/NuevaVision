@@ -3,6 +3,7 @@
       <div class="card-header text-right">
         <h4 class="card-title">Listado de Proveedores</h4>
         <button class="btn btn-primary float-right" v-on:click="crear()"> <i class="fa fa-plus"></i> Agregar Nuevo</button>
+        <button class="btn btn-danger float-right" v-on:click="descargar()"> <i class="fa fa-list"></i> Exportar</button>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -67,6 +68,30 @@
             crear()
             {
                 this.$emit('create');
+            },
+            descargar()
+            {
+              console.log("ejecutando");
+              axios.get('/export_proveedores').then((response) => {
+                  this.descargando = response.data;
+              });
+
+              var url = '/documentos_imagenes/proveedores_excels/'+this.descargando;
+
+              axios({
+                    url: url,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
+   
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', this.descargando);
+                     document.body.appendChild(fileLink);
+   
+                     fileLink.click();
+                });
             }
         },
 

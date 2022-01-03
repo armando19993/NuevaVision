@@ -18,4 +18,9 @@ class ProcesoSocio extends Model
     {
         return $this->hasOne(Socio::class, 'id', 'socio_id');
     }
+
+    public function creador()
+    {
+        return $this->hasOne(User::class, 'id', 'creador_id');
+    }
 }

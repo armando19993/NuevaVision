@@ -3,6 +3,7 @@
       <div class="card-header text-right">
         <h4 class="card-title">Socios</h4 >
         <button class="btn btn-primary float-right" v-on:click="crear()"> <i class="fa fa-plus"></i> Agregar Nuevo</button>
+        <button class="btn btn-danger float-right" v-on:click="descargar()"> <i class="fa fa-list"></i> Exportar</button>
       </div>
     <el-row style="margin-left: 20px; margin-right:20px;" :gutter="20">
         <el-col :span="6" >
@@ -158,7 +159,8 @@
                 nombre: '',
                 estado: '',
                 banco: '',
-                socio: ''
+                socio: '',
+                descargando: ''
             }
         },
 
@@ -216,6 +218,30 @@
             {
               var socio_id = id;
               this.$emit('createAporte', socio_id, banco_id);
+            },
+            descargar()
+            {
+              console.log("ejecutando");
+              axios.get('/export_socios').then((response) => {
+                  this.descargando = response.data;
+              });
+
+              var url = '/documentos_imagenes/socios_Excels/'+this.descargando;
+
+              axios({
+                    url: url,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
+   
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', this.descargando);
+                     document.body.appendChild(fileLink);
+   
+                     fileLink.click();
+                });
             }
         },
     }

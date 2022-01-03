@@ -24,4 +24,9 @@ class Proveedor extends Model
         if($value == 1){ return $this->attributes['status'] = true; }
         else{ return $this->attributes['status'] = false; }
     }
+
+    public function cuenta()
+    {
+        return $this->hasOne(PlanCuenta::class, 'id', 'cuenta_id');
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProcesoSocio;
 use Symfony\Component\HttpFoundation\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProcesoSocioExport;
 
 class ProcesoSocioController extends Controller
 {
@@ -60,6 +62,26 @@ class ProcesoSocioController extends Controller
         $proceso->save();
 
         return $proceso;
+    }
+
+    public function export()
+    {
+        $nombre = date('YmdHis').'_procesos.xlsx';
+        Excel::store(new ProcesoSocioExport, '/procesos_excels/'.$nombre);
+
+        return $nombre;
+    }
+
+    public function mis_procesos()
+    {
+        if(!isset(Auth::user()->name))
+        {
+            return redirect()->route('login');
+        }
+
+        $procesos = ProcesoSocio::where('socio_id', Auth::user()->id)->get();
+
+        return view('mis_procesos', ['procesos' => $procesos]);
     }
 
 }

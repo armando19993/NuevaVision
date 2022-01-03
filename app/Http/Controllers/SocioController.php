@@ -7,9 +7,12 @@ use App\Http\Requests\UpdateSocioRequest;
 use App\Models\Socio;
 use App\Models\Banco;
 use App\Models\User;
+use App\Models\AportesSocio;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SociosExport;
 
 class SocioController extends Controller
 {
@@ -69,7 +72,8 @@ class SocioController extends Controller
             'name' => $request->nombres,
             'password' => sha1($request->documento),
             'type_user' => 5,
-            'status_user' => $request->estado
+            'status_user' => $request->estado,
+            'socio_id' => $socio->id
         ]);
 
         return $socio;
@@ -219,11 +223,37 @@ class SocioController extends Controller
 
     public function mis_aportes()
     {
-        return view('mis_aportes');
+        if(!isset(Auth::user()->name))
+        {
+            return redirect()->route('login');
+        }
+
+        $aportes = AportesSocio::where('socio_id', Auth::user()->socio_id)->with(['banco'])->get();
+        //return $aportes;
+        return view('mis_aportes', [
+            'aportes' => $aportes
+        ]);
     }
 
     public function perfil()
     {
-        return view('perfil');
+        $usuario = Auth::user();
+        $socio = Socio::find($usuario->socio_id);
+
+        //return $socio;
+        return view('perfil', [
+            'usuario' => $usuario,
+            'socio' => $socio
+        ]);
     }
+
+    public function export()
+    {
+        $nombre = date('YmdHis').'_socios.xlsx';
+        Excel::store(new SociosExport, '/socios_Excels/'.$nombre);
+
+        return $nombre;
+    }
+
+    
 }

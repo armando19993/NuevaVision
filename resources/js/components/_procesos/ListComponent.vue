@@ -3,6 +3,7 @@
     <div class="card-header">
         <h3>Procesos</h3>
         <button class="btn btn-success text-right" @click="crear"> <i class="fa fa-plus-circle"></i> Agregar</button>
+        <button class="btn btn-danger text-right" @click="descargar()"> <i class="fa fa-list"></i> Exportar</button>
     </div>
     <div class="card-body">
   <el-table
@@ -57,7 +58,8 @@
         data()
         {
             return {
-                search: ''
+                search: '',
+                descargando: ''
             }
         },
 
@@ -73,6 +75,30 @@
             crear()
             {
                 this.$emit('crear');
+            },
+            descargar()
+            {
+              console.log("ejecutando");
+              axios.get('/export_procesos_socios').then((response) => {
+                  this.descargando = response.data;
+              });
+
+              var url = '/documentos_imagenes/procesos_excels/'+this.descargando;
+
+              axios({
+                    url: url,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
+   
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', this.descargando);
+                     document.body.appendChild(fileLink);
+   
+                     fileLink.click();
+                });
             }
         }
     }

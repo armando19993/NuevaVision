@@ -8,6 +8,8 @@ use App\Models\Proveedor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
+use App\Exports\ProveedoresExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProveedorController extends Controller
 {
@@ -73,6 +75,14 @@ class ProveedorController extends Controller
         $proveedor->save();
 
         return $proveedor;
+    }
+
+    public function export()
+    {
+        $nombre = date('YmdHis').'_proveedores.xlsx';
+        Excel::store(new ProveedoresExport, '/proveedores_excels/'.$nombre);
+
+        return $nombre;
     }
 
 }

@@ -56,6 +56,7 @@ Route::get('getSocio/{socio}', [SocioController::class, 'get_socio']);
 
 //Rutas AportesSocios
 Route::get('aportes-socios/{socio}/{type_user}/{user_id}', [AportesSocioController::class, 'show']);
+Route::get('get-aportes-socios/{socio}', [AportesSocioController::class, 'get_aportes']);
 Route::post('aportes-socios', [AportesSocioController::class, 'store']);
 Route::put('aportes-socios', [AportesSocioController::class, 'update']);
 Route::post('update-estado-aporte', [AportesSocioController::class, 'update_estado']);

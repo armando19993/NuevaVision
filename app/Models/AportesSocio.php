@@ -20,7 +20,12 @@ class AportesSocio extends Model
 
     public function banco()
     {
-        return $this->hasOne(Socio::class, 'id', 'banco_id');
+        return $this->hasOne(Banco::class, 'id', 'banco_id');
+    }
+
+    public function creador()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function getTipoPagoAttribute($value)

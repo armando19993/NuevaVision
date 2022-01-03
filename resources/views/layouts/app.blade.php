@@ -201,6 +201,11 @@
               </a>
             </li>
             <li class=" nav-item">
+              <a class="d-flex align-items-center" href="{{route('mis_procesos')}}">
+                  <i data-feather="list"></i><span class="menu-title text-truncate" >Mis Procesos</span>
+              </a>
+            </li>
+            <li class=" nav-item">
               <a class="d-flex align-items-center" href="{{route('perfil')}}">
                   <i data-feather="user"></i><span class="menu-title text-truncate" >Editar Mi Perfil</span>
               </a>

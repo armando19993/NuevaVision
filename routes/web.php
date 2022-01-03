@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 use App\Models\PresupuestosAnual;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
+    if(isset(Auth::user()->name))
+        {
+            return redirect()->route('home');
+        }
+
     return view('welcome');
 });
 
 Route::get('/login', function () {
+    if(isset(Auth::user()->name))
+    {
+        return redirect()->route('home');
+    }
+
     return view('welcome');
 });
 
@@ -33,4 +45,10 @@ Route::get('procesos', [ProcesoSocioController::class, 'index'])->name('procesos
 Route::get('socios/listado', [SocioController::class, 'show']);
 
 Route::get('mis_aportes', [SocioController::class, 'mis_aportes'])->name('mis_aportes');
+Route::get('mis_procesos', [ProcesoSocioController::class, 'mis_procesos'])->name('mis_procesos');
 Route::get('perfil', [SocioController::class, 'perfil'])->name('perfil');
+
+Route::get('export_aportes_socios', [AportesSocioController::class, 'export'])->name('export_aportes_socios');
+Route::get('export_procesos_socios', [ProcesoSocioController::class, 'export'])->name('export_procesos_socios');
+Route::get('export_socios', [SocioController::class, 'export'])->name('export_socios');
+Route::get('export_proveedores', [ProveedorController::class, 'export'])->name('export_proveedores');

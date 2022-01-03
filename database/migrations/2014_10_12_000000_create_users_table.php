@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('status_user');
             $table->string('observaciones')->nullable();
             $table->integer('tipo_socio')->nullable();
+            $table->integer('socio_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

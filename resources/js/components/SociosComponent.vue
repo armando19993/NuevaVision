@@ -129,7 +129,7 @@
                 this.nombres = nombres;
                 this.edit_aporte = false;
 
-                axios.get('/api/aportes-socios/'+id_socio).then((response) =>
+                axios.get('/api/get-aportes-socios/'+id_socio).then((response) =>
                 {
                     this.aportes = response.data;
                 })
