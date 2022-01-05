@@ -14,3 +14,4 @@ class ProveedoresExport implements FromView
         return view('exports.proveedores', ['proveedores' => Proveedor::with('cuenta')->get()]);
     }
 }
+
